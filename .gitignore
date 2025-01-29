@@ -1,0 +1,31 @@
+# 🔒 Evitar subir credenciales de Firebase
+config/firebase_adminsdk.json
+
+# 🔒 Evitar subir variables de entorno
+.env
+
+# ⚙️ Archivos generados por Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# 🚀 Virtual environment (si usas venv)
+venv/
+ENV/
+env/
+
+# 📦 Archivos de dependencias innecesarias
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ⚙️ Archivos de configuración de IDEs
+.vscode/
+.idea/
+*.swp
+
+# 📂 Logs y archivos temporales
+logs/
+*.log
+*.sqlite3
+instance/
