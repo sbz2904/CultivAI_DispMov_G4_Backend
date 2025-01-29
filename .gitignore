@@ -1,5 +1,5 @@
 # 🔒 Evitar subir credenciales de Firebase
-config/firebase_adminsdk.json
+firebase_adminsdk.json
 
 # 🔒 Evitar subir variables de entorno
 .env
