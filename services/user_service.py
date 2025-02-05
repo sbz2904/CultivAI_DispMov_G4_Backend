@@ -45,3 +45,15 @@ def update_user_sembrios(user_id, sembrios_ids):
         return {'error': 'Usuario no encontrado'}
     except Exception as e:
         return {'error': str(e)}
+
+def update_user(user_id, data):
+    try:
+        result = db.usuarios.update_one(
+            {'_id': ObjectId(user_id)},
+            {'$set': data}
+        )
+        if result.matched_count > 0:
+            return {'message': 'Usuario actualizado correctamente'}
+        return {'error': 'Usuario no encontrado'}
+    except Exception as e:
+        return {'error': str(e)}
