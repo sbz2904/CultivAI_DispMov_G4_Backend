@@ -1,5 +1,10 @@
 from config.mongo_config import db
 from bson import ObjectId
+from gridfs import GridFS
+from flask import request, jsonify
+import datetime
+
+fs = GridFS(db)
 
 # ✅ Agregar un nuevo sembrío
 def add_sembrio(data):
@@ -56,3 +61,86 @@ def get_user_sembrios(user_id):
         return {'error': 'Usuario no encontrado'}
     except Exception as e:
         return {'error': str(e)}
+    
+# ✅ Guardar una nueva nota asociada a un usuario y sembrío
+def add_note(sembrio_id, user_id):
+    try:
+        data = request.get_json()
+        content = data.get('content')
+        timestamp = datetime.datetime.utcnow()
+        
+        if not content:
+            return jsonify({'error': 'El contenido de la nota es obligatorio'}), 400
+        
+        note = {
+            'user_id': ObjectId(user_id),
+            'sembrio_id': ObjectId(sembrio_id),
+            'content': content,
+            'timestamp': timestamp
+        }
+        db.notas.insert_one(note)
+        return jsonify({'message': 'Nota guardada con éxito'}), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# ✅ Obtener todas las notas de un usuario para un sembrío
+def get_notes(sembrio_id, user_id):
+    try:
+        notas = list(db.notas.find({'user_id': ObjectId(user_id), 'sembrio_id': ObjectId(sembrio_id)}))
+        for nota in notas:
+            nota['_id'] = str(nota['_id'])
+            nota['user_id'] = str(nota['user_id'])
+            nota['sembrio_id'] = str(nota['sembrio_id'])
+        return jsonify(notas), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# ✅ Subir imagen a GridFS asociada a un usuario y sembrío
+def upload_image(sembrio_id, user_id):
+    try:
+        file = request.files.get('file')
+        
+        if not file:
+            return jsonify({'error': 'El archivo es obligatorio'}), 400
+        
+        file_id = fs.put(file, filename=file.filename, metadata={'user_id': str(user_id), 'sembrio_id': str(sembrio_id)})
+        return jsonify({'message': 'Imagen subida', 'file_id': str(file_id)}), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# ✅ Obtener imágenes de un usuario para un sembrío
+def get_images(sembrio_id, user_id):
+    try:
+        images = db.fs.files.find({'metadata.user_id': str(user_id), 'metadata.sembrio_id': str(sembrio_id)})
+        image_list = [
+            {
+                "file_id": str(img['_id']),
+                "filename": img['filename'],
+                "url": f"http://192.168.100.2:5000/api/sembrios/imagenes/{str(img['_id'])}"
+            }
+            for img in images
+        ]
+        return jsonify(image_list), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# ✅ Eliminar una imagen de GridFS
+def delete_image(sembrio_id, file_id):
+    try:
+        fs.delete(ObjectId(file_id))
+        return jsonify({'message': 'Imagen eliminada'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# ✅ Eliminar una nota
+
+def delete_note(sembrio_id, nota_id):
+    try:
+        result = db.notas.delete_one({'_id': ObjectId(nota_id)})
+        if result.deleted_count > 0:
+            return jsonify({'message': 'Nota eliminada'}), 200
+        return jsonify({'error': 'Nota no encontrada'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
