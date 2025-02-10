@@ -1,7 +1,7 @@
 #from config.firebase_config import db
 from bson import ObjectId
 from config.mongo_config import db
-from utils.crupto_util import encrypt_password, verify_password
+from utils.crypto_util import encrypt_password, verify_password
 
 def create_user(data):
     try:
@@ -22,6 +22,12 @@ def get_all_users():
         return users  # Ahora todos los _id son cadenas
     except Exception as e:
         return {'error': str(e)}
+
+def get_first_user_by_email(email):
+    try:
+        return db.usuarios.find_one({"email": email})
+    except:
+        return None
     
 
 def get_user_by_id(user_id):
