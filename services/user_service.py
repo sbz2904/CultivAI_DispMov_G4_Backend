@@ -1,11 +1,12 @@
 #from config.firebase_config import db
 from bson import ObjectId
-
 from config.mongo_config import db
+from utils.crupto_util import encrypt_password, verify_password
 
 def create_user(data):
     try:
         #user_ref = db.collection('usuarios').add(data)
+        data["password"] = encrypt_password(data.get("password"))
         user_ref = db.usuarios.insert_one(data)
         #return {'id': user_ref[1].id}
         return {'id': str(user_ref.inserted_id)}
