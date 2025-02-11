@@ -15,7 +15,7 @@ CultivAI es una aplicación diseñada para optimizar la gestión de cultivos med
 Desarrollado con *Flask* para el backend y *React Native* para el frontend. Proporciona una solución para:
 - *Seguimiento de condiciones ambientales de cultivos.*
 - *Recomendaciones inteligentes basadas en IA para el cuidado de cultivos.*
-- *Interfaz optimizada para dispositivos móviles.*
+- *Interfaz intuitiva para dispositivos móviles.*
 
 ---
 
