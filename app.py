@@ -9,7 +9,6 @@ app = Flask(__name__)
 CORS(app)
 app.config['SECRET_KEY'] = 'your_jwt_secret_key'
 
-# Registrar Blueprints
 app.register_blueprint(user_bp, url_prefix='/api/users')
 app.register_blueprint(sembrio_bp, url_prefix='/api/sembrios')   
 app.register_blueprint(weather_bp, url_prefix='/api/weather')

@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, send_file
-from services.sembrio_service import add_sembrio, get_all_sembrios, get_sembrio_by_id, get_user_sembrios, update_user_sembrios, add_note, get_notes, delete_note, upload_image, get_images, delete_image, fs
+from services.sembrio_service import add_sembrio, get_all_sembrios, get_sembrio_by_id, get_user_sembrios, update_user_sembrios, add_note, get_notes, upload_image, get_images, fs, delete_note, delete_image
 from services.user_service import get_user_by_id
 from io import BytesIO
 from bson import ObjectId
@@ -58,10 +58,6 @@ def upload_image_route(sembrio_id, user_id):
 def get_images_route(sembrio_id, user_id):
     return get_images(sembrio_id, user_id)
 
-# ✅ Eliminar una imagen de GridFS
-@sembrio_bp.route('/<string:sembrio_id>/imagenes/<string:file_id>', methods=['DELETE'])
-def delete_image_route(sembrio_id, file_id):
-    return delete_image(sembrio_id, file_id)
 
 @sembrio_bp.route('/imagenes/<string:file_id>', methods=['GET'])
 def get_image(file_id):
@@ -70,3 +66,13 @@ def get_image(file_id):
         return send_file(BytesIO(file.read()), mimetype='image/jpeg')
     except Exception as e:
         return jsonify({'error': str(e)}), 404
+    
+# ✅ Eliminar una nota
+@sembrio_bp.route('/<string:sembrio_id>/notas/<string:user_id>/<string:note_id>', methods=['DELETE'])
+def delete_note_route(sembrio_id, user_id, note_id):
+    return delete_note(sembrio_id, user_id, note_id)
+
+# ✅ Eliminar una imagen
+@sembrio_bp.route('/imagenes/<string:file_id>/<string:user_id>/<string:sembrio_id>', methods=['DELETE'])
+def delete_image_route(file_id, user_id, sembrio_id):
+    return delete_image(file_id, user_id, sembrio_id)
