@@ -1,0 +1,9 @@
+flask
+flask-cors
+flask-jwt-extended
+pymongo
+gridfs
+bcrypt
+requests
+python-dotenv
+google-generativeai
