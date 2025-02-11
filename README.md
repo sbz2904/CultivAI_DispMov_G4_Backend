@@ -140,7 +140,9 @@ El frontend estará disponible en http://localhost:8081.
 
 4. Envía un pull request.
 
----
+## Figma
+
+https://www.figma.com/proto/mff5cJUScCrBTeSXvUB5Ay/Untitled?node-id=27-12&t=GdL4gLWdaNNTtrPM-1
 
 ## 📄 Licencia
 
