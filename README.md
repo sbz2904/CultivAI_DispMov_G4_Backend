@@ -56,7 +56,7 @@ El backend estará disponible en http://localhost:5000/api.
 
 ### 💻 Configuración del frontend
 
-1. Navega al directorio del frontend:
+1. Navega al frontend:
 
    
    cd frontend
@@ -76,7 +76,6 @@ El backend estará disponible en http://localhost:5000/api.
 
 El frontend estará disponible en http://localhost:8081.
 
----
 
 ## 🌿 Funcionalidades
 
@@ -133,15 +132,11 @@ El frontend estará disponible en http://localhost:8081.
 1. Haz un fork del repositorio.
 2. Crea una nueva rama:
 
-   
    git checkout -b feature/nueva-funcionalidad
-   
 
 3. Realiza tus cambios y haz commit:
 
-   
    git commit -m "Agrega nueva funcionalidad"
-   
 
 4. Envía un pull request.
 
